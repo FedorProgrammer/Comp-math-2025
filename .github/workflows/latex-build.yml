@@ -27,7 +27,7 @@ jobs:
         run: mv latex/dev/main.pdf latex/main.pdf
 
       - name: Upload PDF artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@latest
         with:
           name: compiled-pdf
           path: latex/main.pdf
