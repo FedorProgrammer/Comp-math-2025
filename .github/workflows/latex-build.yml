@@ -1,0 +1,33 @@
+name: Build LaTeX and move PDF to latex/
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'latex/dev/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: latex/dev/main.tex
+          args: -synctex=1 -interaction=nonstopmode --shell-escape -file-line-error -pdf
+
+      - name: Prepare target directory
+        run: mkdir -p latex
+
+      - name: Move PDF to latex/
+        run: mv latex/dev/main.pdf latex/main.pdf
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-pdf
+          path: latex/main.pdf

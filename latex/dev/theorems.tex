@@ -1,0 +1,23 @@
+% Подключаем tcolorbox
+\tcbuselibrary{theorems}
+
+% Стиль рамки для теорем
+\tcbset{theostyle/.style={
+  colback=theoremcolor!50,
+  colframe=bordercolor,
+  fonttitle=\bfseries,
+  coltitle=black,
+  boxrule=0.8pt,
+  arc=2mm,
+  left=1.5mm,
+  right=1.5mm,
+  top=1mm,
+  bottom=1mm,
+  enhanced,
+  breakable
+}}
+
+% Определения новых теорем
+\newtcbtheorem[auto counter, number within=section]{theorem}{Теорема}{theostyle}{th}
+\newtcbtheorem[auto counter, number within=section]{lemma}{Лемма}{theostyle}{lem}
+\newtcbtheorem[auto counter, number within=section]{definition}{Определение}{theostyle}{def}
