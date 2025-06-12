@@ -1,5 +1,5 @@
 % Подключаем tcolorbox
-\tcbuselibrary{theorems}
+\tcbuselibrary{theorems,skins,breakable}
 
 % Стиль рамки для теорем
 \tcbset{theostyle/.style={
@@ -14,10 +14,13 @@
   top=1mm,
   bottom=1mm,
   enhanced,
-  breakable
+  breakable,
+  before skip=\baselineskip,
+  after skip=\baselineskip
 }}
 
 % Определения новых теорем
 \newtcbtheorem[auto counter, number within=section]{theorem}{Теорема}{theostyle}{th}
 \newtcbtheorem[auto counter, number within=section]{lemma}{Лемма}{theostyle}{lem}
 \newtcbtheorem[auto counter, number within=section]{definition}{Определение}{theostyle}{def}
+\newtcbtheorem[auto counter, number within=section]{example}{Пример}{theostyle}{ex}

@@ -1,12 +1,66 @@
 % Общие пакеты
 \usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
 \usepackage[russian]{babel}
-\usepackage{amsmath, amssymb, amsthm}
-\usepackage{tcolorbox}
-\usepackage{geometry}
-\geometry{margin=2.5cm}
+
+% Математические пакеты
+\usepackage{amsmath, amssymb, amsthm, mathrsfs}
+
+% Пакеты для формата страницы
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage[notlof,notlot]{tocbibind}
+\usepackage{needspace}
+
+\usepackage{titlesec, enumitem}
+
+% Каждая секция начинается с новой страницы
+\titleformat{\section}
+  {\clearpage\normalfont\Large\bfseries}{\thesection}{1em}{}
+
+% Устанавливаем отступы
+\setlength{\parindent}{0pt}
+
+\titlespacing{\subsection}{0pt}{4\baselineskip}{1\baselineskip}
+\titlespacing{\subsubsection}{0pt}{2\baselineskip}{1\baselineskip}
+
+% Отступы для текста
+\clubpenalty=10000          % Запрет одиночных строк в начале страницы
+\widowpenalty=10000         % Запрет одиночных строк в конце страницы
+\displaywidowpenalty=10000  % То же для формул
+\brokenpenalty=10000        % Запрет переносов в неподходящих местах
+\tolerance=1000             % Допустимая растяжимость строк
+\emergencystretch=3pt       % Экстренная растяжимость
+
+% Минимальное количество строк для переноса абзаца
+\raggedbottom              % Позволяет страницам быть разной высоты
+\setlength{\parfillskip}{0pt plus 1fil}
+
+% Настройки для предотвращения разрывов коротких абзацев
+\newcommand{\needparagraph}[1]{
+    \needspace{3\baselineskip}
+    #1
+}
+
+% Настройки для секций (чтобы заголовки не "висели" в одиночестве)
+\titlespacing{\section}{0pt}{3\baselineskip plus 1\baselineskip}{1\baselineskip}
+\titlespacing{\subsection}{0pt}{4\baselineskip}{1\baselineskip}
+\titlespacing{\subsubsection}{0pt}{2\baselineskip}{1\baselineskip}
+
+% Отступы для списков
+\setlist[enumerate]{noitemsep, topsep=0pt}
+\setlist[itemize]{noitemsep, topsep=0pt}
+
+\let\olditem\item
+\renewcommand{\item}{\needspace{2\baselineskip}\olditem}
+
+% Глубина нумерации
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% Ссылки
+\usepackage{hyperref, cleveref}
 
 % Цвета для блоков
-\usepackage{xcolor}
+\usepackage{tcolorbox, xcolor}
 \definecolor{theoremcolor}{HTML}{F0F0F0}
-\definecolor{bordercolor}{HTML}{333366}
+\definecolor{bordercolor}{HTML}{708090}

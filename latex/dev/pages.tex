@@ -1,14 +1,17 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 
+% Устанавливаем рекомендуемую высоту заголовка
+\setlength{\headheight}{14.5pt}
+
 \fancyhf{} % очистить все поля
 
 % Верхний колонтитул: название и номер секции
 \fancyhead[L]{\nouppercase{\leftmark}}
 \fancyhead[R]{\thepage}
 
-% Нижний колонтитул: имя автора или название проекта
-\fancyfoot[C]{\textit{Мой проект \today}}
+% Нижний колонтитул
+\fancyfoot[C]{\textit{}}
 
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
