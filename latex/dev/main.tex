@@ -776,7 +776,7 @@
         \end{lemma}
 
 \clearpage
-\subsection{Метод простой итерации. Скорость сходимости. Критерий окончания}
+\subsection{Метод простой итерации. Скорость сходимости. Критерий окончания. Приведение к виду, удобному для итераций.}
 
     \subsubsection{Описание метода.}
 
@@ -798,8 +798,6 @@
 
             В методе простых итераций $\phi(x) = x - \alpha f(x)$, где $\alpha$ - какая-то константа, $f(x)$ - исходная функция. 
             
-            \vspace{\baselineskip}
-
             Убедимся, что корень $\phi(x)$ - корень $f(x)$: 
             $$\phi(\overline{x}) = \overline{x} - \alpha f(\overline{x}) = \overline{x}$$
 
@@ -834,16 +832,238 @@
             \end{itemize}
             А также справедлива следующая оценка погрешности:
             $$|x^{(n)} - \overline{x}| \leq q^{n}|x^{(0)} - \overline{x}|$$
+
+            \begin{proof}
+                По определению:
+                $$x^{(n + 1)} = \phi(x^{(n)})$$
+                $$\overline{x} = \phi(\overline{x})$$
+
+                Тогда:
+                $$x^{(n + 1)} - \overline{x} = \phi(x^{(n)}) - \phi(\overline{x}) = \phi^{'}(\xi^{(n)})(x^{(n)} - \overline{x})$$
+                Причем:
+                $$\xi^{(n)} \in [x^{(n)}, \overline{x}]$$
+
+                Значит:
+                $$|x^{(n+1)} - \overline{x}| = |\phi^{'}(\xi^{(n)})| \cdot |x^{(n)} - \overline{x}| \leq q \cdot |x^{(n)} - \overline{x}|$$
+            
+                Следовательно: интерполяционная последовательность $x^{(0)}, x^{(1)}, \ldots, x^{(k)}, \ldots$ сходится линейно к $\overline{x}$ (отсюда получаем, что последовательность сходится со скоростью геометрической последовательности со знаменателем $q$).
+            \end{proof}
+
+        \end{theorem}
+
+        \textbf{Априорные оценки} погрешности позволяют еще до вычислений дать некоторое заключение о качестве метода.
+
+    \subsubsection{Критерий окончания.}
+        
+        \begin{theorem}{Об апостериорной погрешности}{th-simple-iterations-posteriori-error}
+            Пусть в некоторой $\sigma$-окрестности корня $\overline{x}$ функция $\phi(x)$ дифференцируема и удовлетворяет неравенству:
+            $$|\phi^{'}(x)| \leq q$$
+            где $0 \leq q < 1$ - постоянная.\\
+
+            Тогда $\forall x^{(0)} \in [\overline{x} - \sigma, \overline{x} + \sigma]$ верна следующая апостериорная оценка погрешности:
+            $$|x^{(n)} - \overline{x}| \leq \frac{q}{1 - q} |x^{(n)} - x^{(n - 1)}| \text{, } n \geq 1$$
+
+            \begin{proof}
+                $$x^{(n)} - \overline{x} = \phi(x^{(n - 1)}) - \phi(\overline{x}) = \phi^{'}(\xi^{(n)})(x^{(n - 1)} - \overline{x})$$
+
+                Пусть: 
+                $$\phi^{'}(\xi^{n}) = \alpha^{(n+1)}$$
+
+                Тогда:
+                $$x^{(n)} - \overline{x} = \alpha^{(n+1)}(x^{(n+1)} - \overline{x})$$
+                $$\alpha^{(n + 1)}(x^{(n - 1)} - x^{(n)} + x^{(n)} - \overline{x}) = \alpha^{(n + 1)}(x^{(n - 1)} - x^{(n)}) + \alpha^{(n + 1)}(x^{(n)} - \overline{x})$$
+                
+                Значит:
+                $$|x^{(n)} - \overline{x}| \leq |\alpha^{(n + 1)}| \cdot |x^{(n - 1)} - x^{(n)}| + |\alpha^{(n + 1)}| \cdot |x^{(n)} - \overline{x}|$$
+
+                $$(1 - |\alpha^{(n + 1)}|) \cdot |x^{(n)} - \overline{x}| \leq |\alpha^{(n + 1)}| \cdot |x^{(n - 1)} - x^{(n)}|$$
+                $$|x^{(n)} - \overline{x}| \leq \frac{|\alpha^{(n + 1)}|}{1 - |\alpha^{n + 1}|} \cdot |x^{(n - 1)} - x^{(n)}|$$
+
+                Т.к. $$\begin{cases} 
+                       |\alpha^{(n + 1)}| \leq q \\
+                       1 - |\alpha^{(n + 1)}| \geq 1 - q
+                       \end{cases}$$ то:
+                $$|x^{(n)} - \overline{x}| \leq \frac{q}{1-q} \cdot |x^{(n - 1)} - x^{(n)}|$$
+            \end{proof}
+        \end{theorem}
+
+        Если величина $q$ известна, то неравенство выше дает эффективный метод контроля погрешности и можно сформулировать следующий критерий окончания итерационного процесса.
+
+        \begin{consequence}{Критерий остановки}{con-simple-iterations-graduation-criteria}
+            Вычисления следует вести до выполнения неравенства:
+            $$\frac{q}{1 - q}|x^{(n)} - x^{(n - 1)}| < \varepsilon$$
+            
+            или равносильному ему неравенства:
+            $$|x^{(n)} - x^{(n - 1)}| < \frac{1-q}{q} \varepsilon$$
+        \end{consequence}
+
+        Использование данного критерия окончания требует знание величины $q$. Чтобы избавиться от нее, оценим $q$.
+
+        \begin{lemma}{Оценка величины $q$}{lem-estimating-value-q}
+            $$|x^{(n)} - x^{(n - 1)}| < \frac{1 - \overline{\alpha^{(n)}}}{\overline{\alpha^{(n)}}} \varepsilon$$
+
+            \begin{proof}
+                Заметим, что в малой окрестности корня величина производной $\phi^{'}(x)$ практически постоянна: 
+                $$\phi^{'}(x) \approx \phi^{'}(\overline{x})$$
+
+                Тогда величину $\alpha^{(n)} = \phi^{'}(\xi^{(n - 1)})$ можно приближенно заменить на $\phi^{'}(\overline{x})$.\\
+                Следовательно:
+                $$x^{(n)} - x^{(n - 1)} = \phi(x^{(n - 1)}) - \phi(x^{(n - 2)}) = \phi^{'}(\overline{\xi^{(n)}})(x^{(n - 1)} - x^{(n - 2)})$$
+                где: $\overline{\xi^{(n)}} \in [x^{(n - 1)}, x^{(n - 2)}]$.\\
+
+                Тогда:
+                $$\overline{\alpha^{(n)}} = \frac{x^{(n)} - x^{(n - 1)}}{x^{(n - 1)} - x^{(n - 2)}} = \phi^{'}(\overline{\xi^{(n)}}) \approx \phi^{'}(\overline{x})$$
+            
+                Таким образом: можно положить $\alpha^{(n)} \approx \overline{\alpha^{(n)}}$.
+                $$|x^{(n)} - x^{(n - 1)}| < |\frac{1 - \overline{\alpha^{(n)}}}{\overline{\alpha^{(n)}}}| \varepsilon$$
+            \end{proof}
+        \end{lemma}
+
+    \subsubsection{Приведение к виду, удобного для итераций.}
+        
+        \begin{theorem}{Приведение к виду, удобного для итераций}{th-bringing-to-form-convenient-for-iteration}
+            Предположим, что производная $f^{'}(x)$ на отрезке $[a, b]$ непрерывна и положительна. Тогда существуют постоянные $m$ и $M$ такие, что $0 < m \leq f^{'}(x) \leq M$, $x \in [a, b]$.\\
+            Найдем такое $\alpha$, что $|\phi^{'}(x)| \leq q < 1$, причем значение $q$ - минимально.
+            $$\alpha_{\text{opt}} = \frac{2}{m + M}$$
+            
+            \begin{proof}
+                Т.к. $m \leq \phi^{'}(x) \leq M$, то:
+                $$1 - \alpha M \leq \phi^{'}(x) \leq 1 - \alpha m$$
+
+                В соотношении:
+                $$|\phi^{'}(x) \leq q|$$
+                Величина $q$ должна быть минимальна.\\
+
+                Следовательно:
+                $$|\phi^{'}(x) \leq \max_{\alpha}|\{|1 - \alpha M| \text{, } |1 - \alpha m|\}$$
+
+                Получаем:
+                $$1 - \alpha m = -1 + \alpha M$$
+
+                Отсюда:
+                $$\alpha_{\text{opt}} = \frac{2}{m + M}$$
+            \end{proof}
         \end{theorem}
 
 \clearpage
 \subsection{Метод Ньютона решения нелинейных уравнений. Вывод итерационной формулы метода Ньютона.}
 
+    Расчетную формулу метода можно получить, используя различные подходы. 
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.7\textwidth]{images/newton-tangent-method-ex.png}
+        \caption{Метод касательных}
+        \label{fig:newton-tangent-method}
+    \end{figure}
+
+    \begin{definition}{Метод касательных}{def-newton-tangent-method}
+        \textbf{Шаги алгоритма:}
+        \begin{itemize}
+            \item Пусть $x^{(0)} \in [a, b]$ - начальное приближение к корню $\overline{x}$.
+            \item Выбираем точку $M(x^{(0)}, f(x^{(0)}))$.
+            \item Строим через $M$ касательную к графику $f(x)$.
+            \item Пересечение с осью $Ox$ - следующее приближение $x^{(1)}$.
+        \end{itemize}
+        Продолжая этот процесс далее, получим последовательность $x^{(0)}, x^{(1)}, \ldots, x^{(n)}, \ldots$ приближений к корню $\overline{x}$.
+            
+        \vspace{\baselineskip}
+
+        Уравнение касательной, проведенной к графику функции $y = f(x)$ в точке $(x^{(n)}, f(x^{(n)}))$, имеет вид:
+        $$y = f(x^{(n)}) + f^{'}(x^{(n)})(x - x^{(n)})$$
+
+        Полагая в равенстве $y = 0$ и $f^{'}(x^{(n)}) \neq 0$, получаем:
+        $$0 = f(x^{(n)}) + f^{'}(x^{(n)})(x^{(n + 1)} - x^{(n)})$$
+
+        \textbf{Расчетная формула}:
+        $$x^{(n + 1)} = x^{(n)} - \frac{f(x^{(n)})}{f^{'}(x^{(n)})} \text{, } n \geq 0$$
+    \end{definition}
+
+    С более общих позиций метод Ньютона можно рассматривать как итерационный метод, использующий специальную линеаризацию задачи.
+
+    \begin{definition}{Метод линеаризации}{def-newton-linearization-method}
+        Пусть приближение $x^{(n)}$ уже получено. Представим функцию в окрестности точки $x^{(n)}$ по формуле Тейлора:
+        $$f(x) = f(x^{(n)}) + f^{'}(x^{(n)})(x - x^{(n)}) + \frac{f^{''}(\xi)}{2}(x - x^{(n)})^{2}$$
+        где: $\xi \in [x, x^{(n)}]$
+        
+        \vspace{\baselineskip}
+
+        Заменяя в уравнении $f(x) = 0$ функцию $f(x)$, получаем:
+        $$f(x^{(n)}) + f^{'}(x^{(n)})(x - x^{(n)}) = 0$$
+
+        Принимая решение уравнения за новое приближение $x^{(n + 1)}$, приходим к формуле:
+        $$x^{(n + 1)} = x^{(n)} - \frac{f(x^{(n)})}{f^{'}(x^{(n)})}$$
+    \end{definition}
+
+    В качестве начального приближения можно выбрать \textbf{не любую} точку из $[a, b]$. Иначе: касательная может пересечь $Ox$ вне интервала.
+
+    \begin{theorem}{Критерий выбора начального приближения}{th-newton-choosing-initial-approximation}
+        Пусть $f(x) \in C^{2}[a, b]$ и $f^{'}(x)$ и $f^{''}(x)$ - знакопостоянны.\\
+        Тогда итерационная последовательность метода Ньютона сходится, если в качестве $x^{(0)}$ выбрать точку такую, что:
+        $$f(x^{(0)})f^{''}(x^{(0)}) > 0$$
+    \end{theorem}
+
 \clearpage
-\subsection{Априорная оценка погрешности метода Ньютона (теорема о скорости сходимости).}
+\subsection{Априорная погрешность метода Ньютона.}
+
+    \begin{theorem}{Об априорной погрешности}{th-newton-priori-error}
+        Пусть $f(x) \in C^{2}[a, b]$ - отрезок локализации и $\overline{x}$ - простой корень. Тогда сущствует некоторая $\sigma$-окрестность: $(\overline{x} - \sigma, \overline{x} + \sigma)$: $\forall x^{(0)} \in (\overline{x} - \sigma, \overline{x} + \sigma)$, итерационная последовательность не выходит из этой окрестности и справедлива оценка:
+        $$|x^{(n + 1)} - \overline{x}| \leq C|x^{(n)} - \overline{x}|^{2} \text{, } n \geq 0$$
+        где: $C = \sigma^{-1}$.
+
+        \begin{proof}
+            Т.к. $f \in C^{2}[a, b]$, то: 
+            $$\exists \alpha, \beta > 0 \text{: } \begin{cases} 0 < \alpha \leq |f^{'}(x)| \\ |f^{''}(x)| < \beta \end{cases}$$
+
+            Тогда:
+            \begin{enumerate}
+                \item $0 = f(x^{(n)}) + f^{'}(x^{(n)})(x^{(n + 1)} - x^{(n)})$
+                \item $f(x) = f(x^{(n)}) + f^{'}(x^{(n)})(x - x^{(n)}) + \frac{f^{''}(\xi)}{2}(x - x^{(n)})^{2}$
+            \end{enumerate}
+
+            Подставим во второе уравнение $x = \overline{x}$: $f(\overline{x}) = 0$
+            $$0 = f(x^{(n)}) + f^{'}(x^{(n)})(\overline{x} - x^{(n)}) + \frac{f^{''}(\xi)}{2}(\overline{x} - x^{(n)})$$
+
+            Вычтем из перовго уравнения второе:
+            $$0 = f^{'}(x^{(n)})(\overline{x} - x^{(n)} - x^{(n + 1)} + x^{(n)}) + \frac{f^{''}(\xi)}{2}(\overline{x} - x^{(n)})^{2}$$
+            $$f^{'}(x^{(n)})(x^{(n + 1)} - \overline{x}) = \frac{f^{''}(\xi)}{2}(x^{(n)} - \overline{x})^{2}$$
+            $$\alpha |x^{(n + 1)} - \overline{x}| \leq \frac{\beta}{2}|x^{(n)} - \overline{x}|^{2}$$
+            $$|x^{(n + 1)} - \overline{x}| \leq \frac{\beta}{2\alpha}|x^{(n)} - \overline{x}|^{2}$$
+
+            Возьмем за $\sigma = \frac{2\alpha}{\beta}$:
+            $$|x^{(n + 1)} - \overline{x}| \leq \sigma^{-1} |x^{(n)} - \overline{x}|^{2}$$
+        \end{proof}
+    \end{theorem}
+
+    \begin{consequence}{Априорной погрешности}{con-priori-error}
+        Априорная оценка погрешности для метода Ньютона:
+        $$|x^{(n)} - \overline{x}| \leq \sigma q^{2^{n}} \text{, } n \geq 0$$
+        где: $q = \sigma^{-1}|x^{(0)} - \overline{x}|$.
+    
+        \begin{proof}
+            По индукции.
+        \end{proof}
+    \end{consequence}
 
 \clearpage
 \subsection{Апостериорная оценка погрешности (критерий окончания). Правило выбора начального приближения на отрезке локализации корня, гарантирующего сходимость метода.}
+
+    \begin{theorem}{Об апостериорная погрешность}{th-newton-posteriori-error}
+        Пусть $x^{(n)} \in (\overline{x} - \frac{\sigma}{2}, \overline{x} + \frac{\sigma}{2})$, тогда: в условиях теоремы об априорной погрешности:
+        $$|x^{(n)} - \overline{x}| \leq |x^{(n)} - x^{(n - 1)}|$$
+    
+        \begin{proof}
+            $$2|x^{(n)} - \overline{x}| \leq 2 \sigma^{-1} |x^{(n - 1)} - \overline{x}|^{2}$$
+            $$2 \cdot \sigma^{-1} |x^{(n - 1)} - \overline{x}| \cdot |x^{(n - 1)} - \overline{x}| \leq |x^{(n-1)} - \overline{x}|$$
+            $$|x^{(n-1)} - x^{(n)} + x^{(n)} - \overline{x}| \leq |x^{(n-1)} - x^{(n)}| + |x^{(n)} - \overline{x}|$$
+            $$|x^{(n)} - \overline{x}| \leq |x^{(n-1)} - x^{(n)}|$$
+        \end{proof}
+    \end{theorem}
+
+    \begin{consequence}{Критерий остановки}{con-newton-graduation-criteria}
+        $$|x^{(n)} - x^{(n - 1)}| < \varepsilon$$
+        где: $\varepsilon$ - заданная точность.
+    \end{consequence}
 
 \clearpage
 \subsection{Модификации метода Ньютона. Упрощенный метод Ньютона. Метод хорд.}
