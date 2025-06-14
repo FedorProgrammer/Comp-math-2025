@@ -74,7 +74,7 @@
             $$L_{p} = \{f(x) \text{| } f(x) \in \text{C}[a, b] \text{, } \int_{a}^{b}|f(t)|^{p} \, dt < \infty\}$$
 
             Расстояние $\rho(x, y)$ в пространстве $L_{p}$ определяется следующим образом:
-            $$\rho(x, y) = [\int_{a}^{b}|x(t) - y(t)|^{p}]^{\frac{1}{p}}$$
+            $$\rho(x, y) = [\int_{a}^{b}|x(t) - y(t)|^{p} \, dt]^{\frac{1}{p}}$$
         \end{example}
 
         В каждом метрическом пространстве можно говорить об \textbf{окрестности данной точки}.
@@ -119,7 +119,7 @@
         Далеко не всегда с помощью средств современной математики удается точно решить эти задачи, применяя конечное число шагов. Для этого используют \textbf{методы вычислительной математики}:
 
         \begin{definition}{Основной метод вычислительной математики}{def-compmath-main-method}
-            Замена пространств $\mathscr{R}_{1}$ и $\mathscr{R}_{1}$ и $\mathscr{R}_{2}$ и оператора $A(x)$ другими пространствами $\overline{\mathscr{R}_{1}}$ $\overline{\mathscr{R}_{2}}$ и оператором $\overline{A}$, более удобными для вичислительных целей.
+            Замена пространств $\mathscr{R}_{1}$ и $\mathscr{R}_{1}$ и $\mathscr{R}_{2}$ и оператора $A(x)$ другими пространствами $\overline{\mathscr{R}_{1}}$ $\overline{\mathscr{R}_{2}}$ и оператором $\overline{A}$, более удобными для вичислительных целей.\\
             Замена $\overline{y} = \overline{A(\overline{x})}$ должна удовлетворять следующим неравенствам:
             $$\rho(x, \overline{x}) < \varepsilon$$
             $$\rho(y, \overline{y}) < \varepsilon$$
@@ -140,14 +140,14 @@
         \end{example}
 
         \begin{definition}{Вычислительный метод}{def-comp-method}
-            Метод, используемый для преобразования задач к виду, удобному для реализации на ЭВМ.
+            Метод, используемый для преобразования задачи к виду, удобному для реализации на ЭВМ.
         \end{definition}
 
         \begin{definition}{Основные вычислительные методы}{def-main-comp-methods}
             \textbf{Основные классы} вычислительных методов:
             \begin{itemize}
                 \item \textbf{Методы эквивалентных преобразований} (замена исходной задачи другой (более простой), имеющее то же решение).
-                \item \textbf{Методы аппроксимации} (аппроксимировать исходную задачу другой с небольшой погрешностью решения).
+                \item \textbf{Методы аппроксимации} (аппроксимировать исходную задачу другой, с небольшой погрешностью решения).
                 \item \textbf{Итерационные методы} (через итерационные последовательности и функции).
             \end{itemize}
 
@@ -199,11 +199,11 @@
         \end{definition}
 
         \begin{definition}{Относительная погрешность}{def-relative-error}
-            Для соотншения погрешность величины и ее значения вводят понятие \textbf{относительной погрешности}:
+            Для соотоншения погрешности величины и ее значения вводят понятие \textbf{относительной погрешности}:
             $$\delta(a^{*}) = \frac{|a - a^{*}|}{|a|} = \frac{\Delta(a^{*})}{|a|}$$
         \end{definition}
 
-        Т.к. значение $а$ неизвестно, то непосредственное вычисление величин $\Delta(a^{*})$ и $\delta(a^{*})$ по предыдущим формулам невозможно, то вводят верхние границы погрешностей.
+        Т.к. значение $a$ неизвестно, то непосредственное вычисление величин $\Delta(a^{*})$ и $\delta(a^{*})$ по предыдущим формулам невозможно. Следовательно, вводят верхние границы погрешностей.
 
         \begin{definition}{Верхние границы погрешностей}{def-upper-limits-error}
             $\overline{\Delta(a^{*})}$ и $\overline{\delta(a^{*})}$ - верхние границы абсолютной и относительной погрешностей соответственно:
@@ -287,7 +287,7 @@
             $$\Delta(a^{*} \pm b^{*}) \leq \Delta(a^{*}) + \Delta(b^{*})$$
         
             \begin{proof}
-                $$\Delta(a^{*} \pm b^{*}) = |(a \pm b) - (a^{*} \pm b^{*})| = |(a - a^{*} \pm (b - b^{*}))| \leq \Delta(a^{*}) + \Delta(b^{*})$$
+                $$\Delta(a^{*} \pm b^{*}) = |(a \pm b) - (a^{*} \pm b^{*})| = |(a - a^{*}) \pm (b - b^{*})| \leq \Delta(a^{*}) + \Delta(b^{*})$$
             \end{proof}
         \end{theorem}
 
@@ -363,35 +363,33 @@
             где $\nu^{*} = |x^{*}| \frac{f^{'}(x^{*})}{f(x^{*})}$, $\nu = |x| \frac{f^{'}(x)}{f(x)}$
        
             \begin{proof}
-                Частный случай формул погрешностей функции многих переменных.
+                Частный случай формулы погрешности функции многих переменных.
+                 
+                $$\frac{\overline{\Delta(y^{*})}}{|f(x)|} \approx \frac{|f^{'}(x^{*})|}{|f(x)|}\overline{\Delta{x^{*}}}$$
+                $$\overline{\delta(y^{*})} \approx \frac{|f^{'}(x^{*})| \cdot |x|}{|f(x)|} \frac{\overline{\Delta{x^{*}}}}{|x|} \rightarrow \overline{\delta(y^{*})} \approx \frac{|f^{'}(x^{*})| \cdot |x|}{|f(x)|} \overline{\delta(x^{*})}$$
             \end{proof}
         \end{theorem}
 
         \begin{theorem}{Погрешность функции многих переменных}{th-error-function-many-variables}
             Пусть $f(\vec{x}) = f(x_{1}, x_{2}, \ldots, x_{m})$ - дифференцируемая в области $G$ функция $m$ переменных, вычисление которой производится при приближенно заданных аргументах $x_{1}^{*}, x_{2}^{*}, \ldots, x_{m}^{*}$. Тогда:
-            $$\Delta(y^{*}) \leq \sum_{j=1}^{m} \max_{[x, x^{*}]} |f_{x_{j}}^{'}|\Delta(x_{j}^{*})$$
+            $$\Delta(y^{*}) \leq \sum_{j=1}^{m} \max_{[x, x^{*}]}\{|f_{x_{j}}^{'}|\}\Delta(x_{j}^{*})$$
         
             \begin{proof}
-                Вытекает из формулы конечных приращений Лагранжа:\\
-                $$f(\vec{x}) - f(\vec{x^{*}}) = \sum_{j=1}^{m} f_{x_{j}}^{'}(\overline{x})(x_{j} - x_{j}^{*}) \text{, } \overline{x} \in [x, x^{*}]$$
-                
-                Далее берем модуль от правой и левой частей уравнения и правую часть заменяем на максимум. Получаем требуемое соотношение.
+                $$f(x) - f(x^{*}) = \sum_{j=1}^{m} f_{x_{j}}^{'}(\overline{x})(x_{j} - x_{j}^{*}) \text{, } \overline{x} \in [x, x^{*}]$$
+                $$|f(x) - f(x^{*})| = |\sum_{j=1}^{m} f_{x_{j}}^{'}(\overline{x})(x_{j} - x_{j}^{*})|$$
+                $$|f(x) - f(x^{*})| \leq |\sum_{j=1}^{m} \max_{[x, x^{*}]} \{f_{x_{j}}^{'}\}(x_{j} - x_{j}^{*})|$$
+                $$\Delta(y^{*}) \leq \sum_{j=1}^{m} \max_{[x, x^{*}]} \{|f_{x_{j}}^{'}|\}\Delta(x^{*})$$
             \end{proof}
         \end{theorem}
 
         \begin{consequence}{Погрешность функции многих переменных}{con-error-function-many-variables}
             Если $x^{*} \approx x$, то можно положить:
-            $$\overline{\Delta(y^{*})} \approx \sum_{j=1}^{m}|f_{x_{j}}^{'}(x)|\overline{\Delta(x_{j}^{*})}$$
-            $$\overline{\Delta(y^{*})} \approx \sum_{j=1}^{m}|f_{x_{j}}^{'}(x^{*})|\overline{\Delta(x_{j}^{*})}$$
+            $$\overline{\Delta(y^{*})} \approx \sum_{j=1}^{m}|f_{x_{j}}^{'}(x)|\overline{\Delta(x_{j}^{*})} \text{ и } \overline{\Delta(y^{*})} \approx \sum_{j=1}^{m}|f_{x_{j}}^{'}(x^{*})|\overline{\Delta(x_{j}^{*})}$$
         
-            \vspace{\baselineskip}
-        
-            Из этих формул вытекают приближенные равенства для оценки границ относительных погрешностей:
-            $$\overline{\delta(y^{*})} \approx \sum_{j=1}^{m} \nu_{j}\overline{\delta(x_{j}^{*})}$$
-            $$\overline{\delta(y^{*})} \approx \sum_{j=1}^{m} \nu_{j}^{*}\overline{\delta(x_{j}^{*})}$$
-        
+            Тогда:
+            $$\overline{\delta(y^{*})} \approx \sum_{j=1}^{m} \nu_{j}\overline{\delta(x_{j}^{*})} \text{ и } \overline{\delta(y^{*})} \approx \sum_{j=1}^{m} \nu_{j}^{*}\overline{\delta(x_{j}^{*})}$$        
             где:
-            $$\nu_{j} = \frac{|x_{j}|\cdot|f_{x_{j}}^{'}(x)|}{|f(x)|} \text{, } \nu_{j} = \frac{|x_{j}^{*}|\cdot|f_{x_{j}}^{'}(x^{*})|}{|f(x^{*})|}$$
+            $$\nu_{j} = \frac{|x_{j}|\cdot|f_{x_{j}}^{'}(x)|}{|f(x)|} \text{, } \nu_{j}^{*} = \frac{|x_{j}^{*}|\cdot|f_{x_{j}}^{'}(x^{*})|}{|f(x^{*})|}$$
         \end{consequence}
 
 \clearpage
@@ -406,7 +404,7 @@
 
         \vspace{\baselineskip}
 
-        \textbf{Цель} вычислительной задачи состоит в нахождении решения $y \in Y$ по заданному входному данному $x \in X$.
+        \textbf{Цель} вычислительной задачи состоит в нахождении решения $y \in Y$ по заданному входному $x \in X$.
     \end{definition}
 
     \begin{definition}{Корректность вычислительной задачи}{def-comp-task-correctness}
@@ -430,7 +428,7 @@
         \vspace{\baselineskip}
 
         Вычисление определенного интеграла: $I = \int_{a}^{b} f(x) \, dx$ ($f(x) \in C[a, b]$).\\
-        $$I^{*} = \int_{a}^{b} f^{*}(x) \, dx \text{, } \Delta(f^{*}(x)) = \max_{x \in [a, b]}|f(x) - f^{*}(x)|$$
+        $$ \Delta(f^{*}(x)) = \max_{x \in [a, b]}|f(x) - f^{*}(x)| \text{ и } I^{*} = \int_{a}^{b} f^{*}(x) \, dx$$
         $$\Delta(I^{*}) = |I - I^{*}|$$ 
         $$|\int_{a}^{b} f(x) \, dx - \int_{a}^{b} f^{*}(x) \, dx| \leq \int_{a}^{b} |f(x) - f^{*}(x)| \, dx \leq (b - a) \cdot \Delta(f^{*}(x))$$
 
@@ -529,11 +527,11 @@
     \end{definition}
 
     \begin{definition}{Корректность вычислительных алгоритмов}{def-correctness-comp-algorithms}
-        Вычислительный алгоритм - корректный, если выполнены условия:
+        Вычислительный алгоритм - \textbf{корректный}, если выполнены условия:
         \begin{itemize}
-            \item Алгоритм за конечное число элементарных для ЭВМ операций (сложение, вычитание, умножение, деление) приводит к достижению результата.
-            \item Алгоритм устойчив по отношению к малым погрешностям исходных данных.
-            \item Алгоритм вычислительно устойчив, т.е: погрешность решения стремится к нулю, если машинный эпсилон стремится к нулю.
+            \item Алгоритм за \textbf{конечное число} элементарных для ЭВМ операций (сложение, вычитание, умножение, деление) приводит к достижению результата.
+            \item Алгоритм \textbf{устойчив} по отношению к малым погрешностям исходных данных.
+            \item Алгоритм \textbf{вычислительно устойчив}, т.е: погрешность решения стремится к нулю, если машинный эпсилон стремится к нулю.
         \end{itemize}
     \end{definition}
 
@@ -608,6 +606,7 @@
             Тогда отрезок $[a, b]$ содержит по крайне мере один корень уравнения $f(x) = 0$.
         \end{theorem}
 
+    \clearpage
     \subsubsection{Итерационное уточнение корней.}
         
         \textbf{Основная идея}: использовать итерационный метод, что позволит построить последовательность $x^{(0)}, x^{(1)}, \ldots, x^{(n)}, \ldots$ приближений к корню $\overline{x}$.
@@ -919,6 +918,7 @@
             \end{proof}
         \end{lemma}
 
+    \clearpage
     \subsubsection{Приведение к виду, удобного для итераций.}
         
         \begin{theorem}{Приведение к виду, удобного для итераций}{th-bringing-to-form-convenient-for-iteration}
@@ -1099,7 +1099,7 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.7]{images/simplified-newton-ex.png}
+        \includegraphics[scale=0.5]{images/simplified-newton-ex.png}
         \caption{Упрощенный метод Ньютона}
         \label{fig:simplified-newton-method}
     \end{figure}
@@ -1133,7 +1133,7 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.7]{images/chord-method-ex.png}
+        \includegraphics[scale=0.5]{images/chord-method-ex.png}
         \caption{Метод хорд}
         \label{fig:chord-method}
     \end{figure}
@@ -1154,11 +1154,12 @@
 
     \begin{figure}[H]
         \centering
-        \includegraphics[scale=0.7]{images/secant-method-ex.png}
+        \includegraphics[scale=0.8]{images/secant-method-ex.png}
         \caption{Метод секущих}
         \label{fig:secant-method}
     \end{figure}
 
+    \clearpage
     \begin{lemma}{Скорость сходимости метода секущих}{lem-secant-method-convergence-rate}
         Метод секущих сходится с порядком $p = \frac{1 + \sqrt{5}}{2} \approx 1.618$, т.е. для $n \geq 1$ справедлива оценка:
         $$|x^{(n + 1)} - \overline{x}| \leq c|x^{(n)} - \overline{x}|^{p} \text{, } p = \frac{1 + \sqrt{5}}{2}$$
@@ -1176,19 +1177,234 @@
 \clearpage
 \subsection{Решение СЛАУ. Постановка задачи.}
 
+    \begin{definition}{Система линеных алгебраических уравнений}{def-slae}
+        Cистемы вида:
+        $$\begin{cases} 
+            a_{11}x_{1} + a_{12}x_{2} + \ldots + a_{1m}x_m = b_{1} \\
+            a_{21}x_{1} + a_{22}x_{2} + \ldots + a_{2m}x_m = b_{2} \\
+            a_{31}x_{1} + a_{32}x_{2} + \ldots + a_{3m}x_m = b_{3} \\
+            \ldots \\
+            a_{m1}x_{1} + a_{m2}x_{2} + \ldots + a_{mm}x_m = b_{m} \\
+        \end{cases}$$
+        с вещественным набором коэффициентов $a_{11}, a_{12}, \ldots, a_{mm}$ называют \textbf{системой линейных алгебраических уравнений}.
+
+        \vspace{\baselineskip}
+
+        В \textbf{матричной форме} система записывается в виде:
+        $$Ax = b$$
+        где: $A=
+        \begin{pmatrix} 
+            a_{11} & a_{12} & \ldots & a_{1m} \\ 
+            a_{21} & a_{22} & \ldots & a_{2m} \\ 
+            a_{31} & a_{32} & \ldots & a_{3m} \\ 
+            \ldots \\
+            a_{m1} & a_{m2} & \ldots & a_{mm} \\ 
+        \end{pmatrix}$, 
+        $x = \begin{pmatrix} x_{1} \\ x_{2} \\ x_{2} \\ \ldots \\ x_{m}\end{pmatrix}$,
+        $b = \begin{pmatrix} b_{1} \\ b_{2} \\ b_{3} \\ \ldots \\ b_{m}\end{pmatrix}$
+    \end{definition}
+
+    \begin{definition}{Корректность задачи решения СЛАУ}{def-correctness-problem-solving-slae}
+        Пусть заданы входной вектор $b$ и невырожденная матрица $A$. Тогда известно, что \textbf{решение} системы: 
+        \begin{itemize}
+            \item \textbf{Существует}.
+            \item \textbf{Единственно}.
+            \item \textbf{Устойчиво} по входным данным.
+        \end{itemize}
+        Т.е. \textbf{задача} решения СЛАУ \textbf{корректна}.
+    \end{definition}
+
+    \clearpage
+    \begin{definition}{Задача решения СЛАУ}{def-problem-solving-slae}
+        \textbf{Задача} решения СЛАУ - нахождение такого приближенного решения $x^{*}= (x_{1}^{*}, x_{2}^{*}, \ldots, x_{m}^{*})^{T}$, для которого \textbf{погрешность} $e = x - x^{*}$ \textbf{мала}.
+        
+        \vspace{\baselineskip}
+        
+        Иногда вместо погрешности $e$, удовлетворительным является критерий \textbf{малости невязки} $r = b - Ax^{*}$. 
+        
+        \vspace{\baselineskip}
+        
+        Заметим, что погрешность и невязка системы связаны:
+        $$r = b - Ax^{*} = Ax - Ax^{*} = A(x - x^{*})$$
+        $$e = x - x^{*} = A^{-1}r$$
+    \end{definition}
 
 
 \clearpage
 \subsection{Решение СЛАУ. Определение понятия нормы вектора. Абсолютная и относительная погрешности вектора.}
 
+    \begin{definition}{Норма вектора}{def-vector-norm}
+        Говорят, что в пространстве $R^{m}$ задана норма, если: $\forall x \in R^{m}$ сопоставлено вещественное число $\|x\|$, называемое \textbf{нормой вектора} и обладающее следующими \textbf{свойствами}:
+        \begin{itemize}
+            \item $\|x\| \geq 0$, причем $\|x\| = 0$ $\leftrightarrow$ $x = 0$.
+            \item $\|\alpha x\| = |\alpha| \|x\|$: $\forall x \in R^{m}$, $\forall \alpha \in \mathbb{R}$.
+            \item $\|x + y\| \leq \|x\| + \|y\|$: $\forall x, y \in R^{m}$.
+        \end{itemize}
+    \end{definition}
+
+    \begin{definition}{Виды векторных норм}{def-vector-norms-types}
+        Существуют различные способы введения векторной нормы:
+        \begin{itemize}
+            \item $\|x\|_{1} = \sum_{i=1}^{m} |x_{i}|$.
+            \item $\|x\|_{2} = (\sum_{i=1}^{m} {|x_{i}|}^{2})^{\frac{1}{2}}$ (евклидова норма).
+            \item $\|x\|_{\infty} = \max_{1 \leq i \leq m} |x_{i}|$.
+        \end{itemize}
+
+        \vspace{\baselineskip}
+
+        Первые две являются частными случаями более общей нормы:
+        $$\|x_{p}\| = (\sum_{i=1}^{m} {|x_{i}|}^{p})^{\frac{1}{p}} \text{, } p \geq 1$$
+    
+        \vspace{\baselineskip}
+
+        Также справедливы неравенства:
+        $$\|x\|_{\infty} \leq \|x\|_{2} \leq \|x\|_{1} \leq m\|x\|_{\infty}$$
+
+        Т.е. все три \textbf{введенные нормы эквивалентны}: каждая из них оценивается любой из двух других с точностью до множителя, зависящего от $m$.
+    \end{definition}
+
+    \begin{definition}{Абсолютная и относительная погрешности вектора}{def-absolute-relative-vector-error}
+        Пусть в пространстве $R^{m}$ введена и фиксирована норма, тогда:
+        \begin{itemize}
+            \item \textbf{Абсолютная погрешность вектора}: $\Delta(x^{*}) = \|x - x^{*}\|$.
+            \item \textbf{Отностительная погрешность вектора}: $\delta(x^{*}) = \frac{\Delta(x^{*})}{\|x\|} = \frac{\|x - x^{*}\|}{\|x\|}$
+        \end{itemize}
+    \end{definition}
+
+    \begin{definition}{Сходимость по норме}{def-norm-convergence}
+        Пусть $\{x^{(n)}\}_{n = 1}^{\infty}$ - последовательность векторов $x^{(n)} = (x_{1}^{(n)}, x_{2}^{(n)}, \ldots, x_{m}^{(n)})$.\\
+        Говорят, что последовательность векторов $\{x^{(n)}\}_{n = 1}^{\infty}$ сходится к вектору $x$, если:
+        $$\Delta(x^{(n)}) = \|x - x^{(n)}\| \to 0 \text{, при } n \to \infty$$
+    \end{definition}
+
 \clearpage
 \subsection{Решение СЛАУ. Определение понятия нормы матрицы, подчиненной норме вектора. Геометрическая интерпретация нормы матрицы.}
+
+    \begin{definition}{Норма матрицы}{def-matrix-norm}
+        Величина:
+        $$\|A\| = \max_{x \neq 0} \frac{\|Ax\|}{\|x\|}$$
+        является нормой матрицы $A$, подчиненной норме векторов, введенной в $R^{m}$.
+
+        \vspace{\baselineskip}
+
+        Норма матрицы обладает следующими \textbf{свойствами}:
+        \begin{itemize}
+            \item $\|A\| \geq 0$, причем $\|A\| = 0$ $\leftrightarrow$ $A = 0$.
+            \item $\|\alpha A\| = |\alpha| \|A\|$: $\forall A \in M_{m}(\mathbb{R})$, $\forall \alpha \in \mathbb{R}$.
+            \item $\|A + B\| \leq \|A\| + \|B\|$: $\forall A, B \in M_{m}(\mathbb{R})$.
+            \item $\|A \cdot B\| \leq \|A\| \cdot \|B\|$: $\forall A, B \in M_{m}(\mathbb{R})$.
+            \item $\|A \cdot x\| \leq \|A\| \cdot \|x\|$: $\forall A \in M_{m}(\mathbb{R})$, $\forall x \in R^{m}$.
+        \end{itemize}
+    \end{definition}
+
+    \begin{definition}{Виды матричных норм}{def-matrix-norms-types}
+        Существуют различные способы введения матричной нормы: векторным нормам $\|x\|_{1}$, $\|x\|_{2}$, $\|x\|_{\infty}$ подчинены следующие матричные нормы:
+            \begin{itemize}
+                \item $\|A\|_{1} = \max_{1 \leq j \leq m} \sum_{i=1}^{m} |a_{ij}|$ ("максимальная строка").
+                \item $\|A\|_{2} = \max_{1 \leq j \leq m} \sqrt{\lambda_{j}(A^{T}A)}$ (где $\lambda_{j}(A^{T}A)$) - собственные числа матрицы $A^{T}A$.
+                \item $\|A\|_{\infty} = \max_{1 \leq i \leq m} \sum_{j=1}^{m} |a_{ij}|$ ("максимальный вектор").
+            \end{itemize}
+
+        \vspace{\baselineskip}
+
+        Для нормы $\|A\|_{2}$ используют оценку:
+        $$\|A\|_{2} \leq \|A\|_{\text{Е}}$$
+        где $\|A_{\text{Е}}\| = \sqrt{\sum_{i, j = 1}^{m} |a_{ij}|^{2}}$ - евклидова норма матрицы $A$.
+    \end{definition}
+
+    \clearpage
+    \begin{lemma}{Геометрическая интерпретация нормы матрицы}{lem-geometric-interpretation-of-matrix-norm}
+        Операция умножения матрицы $A$ на вектор $x$ - преобразование, которое переводит вектор $x$ в другой $y$: $y = Ax$.
+
+        \vspace{\baselineskip}
+        
+        Тогда:
+        \begin{itemize}
+            \item $\|x\|$ - длина вектора $x$.
+            \item $\frac{\|Ax\|}{\|x\|}$ - коэффициент растяжения (сжатия) вектора $x$ под действием матрицы $A$.
+        \end{itemize}
+        
+        \vspace{\baselineskip}
+        
+        Следовательно:
+        $$k_{\max} = \|A\| = \max_{x \neq 0} \frac{\|Ax\|}{\|x\|}$$
+        есть максимальный коэффициент растяжения вектора $x$ под действием матрицы $A$.
+    
+        \vspace{\baselineskip}
+
+        Для невырожденной матрицы $A$ минимальный коэффициент растяжения $k_{\min}$ - норма обратной матрицы:
+        $$k_{\min} = \|A^{-1}\|^{-1} = \min_{x \neq 0} \frac{\|Ax\|}{\|x\|}$$
+    \end{lemma}
 
 \clearpage
 \subsection{Обусловленность задачи решения СЛАУ для приближенно заданной правой части. Количественная мера обусловленности СЛАУ. Геометрическая интерпретация числа обусловленности.}
 
+    Решения различных СЛАУ обладают разной чувствительностью к погрешностям входных данных.
+
+    \begin{theorem}{Обусловленность задачи решения СЛАУ-1}{th-conditionality-of-slae-solution-problem-1}
+        Пусть элементы матрицы $A$ заданы точно.\\
+        Пусть $x^{*}$ - точное решение системы $Ax^{*} = b^{*}$, в которой правая часть $b^{*}$ - приближение к $b$.\\
+        
+        Тогда справедливы оценки:
+        $$\Delta(x^{*}) \leq \nu_{\Delta}\Delta(b^{*})$$
+        $$\delta(x^{*}) \leq \nu_{\delta}\delta(b^{*})$$
+
+        где $\nu_{\Delta} = \|A^{-1}\|$ и $\nu_{\delta} = \|A^{-1}\|\frac{\|b\|}{\|x\|}$.
+    
+        \begin{proof}
+            Пусть $x$ - точное решение системы $Ax = b$, тогда:
+            
+            $$Ax - Ax^{*} = b - b^{*}$$
+            $$x - x^{*} = A^{-1}(b - b^{*})$$
+            $$\|x - x^{*}\| \leq \|A^{-1}\| \cdot \|b - b^{*}\|$$
+
+            $$\Delta(x^{*}) \leq \|A^{-1}\| \cdot \Delta(b^{*})$$
+            Т.е: $\nu_{\Delta} = \|A^{-1}\|$ - абслоютное число обусловленности.
+
+            $$\delta(x^{*}) = \frac{\Delta(x^{*})}{\|x\|} \leq \frac{\|A^{-1}\| \cdot \|b\|}{\|x\|} \cdot \delta(b^{*})$$
+            Т.е: $\nu_{\delta} = \frac{\|A^{-1}\| \cdot \|b\|}{\|x\|}$ - относительное (естественное) число обусловленности.
+        \end{proof}
+    \end{theorem}
+
+    \begin{theorem}{Стандартное число обусловленности}{th-standard-conditioning-number}
+        Максимальное значение естественного числа обусловленности (т.е. оно не зависит от $x$).
+        $$\max_{x \neq 0}\{\nu_{\delta}(x)\} = \max_{x \neq 0}\{\frac{\|A^{-1}\| \cdot \|b\|}{\|x\|}\} = \max_{x \neq 0}\{\frac{\|A^{-1}\| \cdot \|Ax\|}{\|x\|}\} = \|A^{-1}\|\cdot\|A\|$$
+
+        Полученное число принято называть \textbf{стандартным числом обусловленности} (или просто числом обусловленности) матрицы $A$:
+        $$\nu(A) = \text{cond}(A) = \|A^{-1}\| \cdot \|A\|$$
+    \end{theorem}
+
+    \begin{consequence}{Стандартное число обусловленности}{con-standard-conditioning-number}
+        Из предыдущей теоремы и свойства относительного числа обусловленности, получаем:
+        $$\delta(x^{*}) \leq \text{cond}(A)\delta(b^{*})$$
+    \end{consequence}
+
+    \begin{lemma}{Свойства стандартного числа обусловленности}{lem-properties-standard-conditioning-number}
+        У стандартного числа обусловленности следующие \textbf{свойства}:
+        \begin{enumerate}
+            \item $\text{cond}(E) = 1$.
+            \item $\text{cond}(A) \geq 1$: $\forall A \in M_{m}(\mathbb{R})$.
+            \item $\text{cond}(\alpha A) = \text{cond}(A)$: $\forall A \in M_{m}(\mathbb{R})$, $\forall \alpha \in \mathbb{R}$.
+        \end{enumerate}
+    \end{lemma}
+
+    \begin{lemma}{Геометрическая интерпретация числа обусловленности}{lem-geometric-interpretation-of-conditionality-number}
+        Число обусловленности можно интерпретировать как отношение максимального коэффициента растяжения ($k_{\max}$) векторов под действием матрицы $A$ к минимальному коэффициенту ($k_{\min}$):
+        $$cond(A) = \frac{k_{\max}}{k_{\min}}$$
+    \end{lemma}
+
 \clearpage
 \subsection{Обусловленность задачи решения СЛАУ для приближенно заданных матрицы и правой части.}
+
+    \begin{theorem}{Обусловленность задачи решения СЛАУ-2}{th-conditionality-of-slae-solution-problem-2}
+        Пусть $x^{*}$ - точное решение системы $A^{*}x^{*} = b^{*}$, с приближенно заданной матрицей $A^{*}$ и вектором $b^{*}$. Тогда верная следующая оценка:
+        $$\delta(x^{*}) \leq \text{cond}(A)(\delta(A^{*}) + \delta(b^{*}))$$
+        где: $\delta(x^{*}) = \frac{\|x - x^{*}\|}{\|x^{*}\|}$, $\delta(A^{*}) = \frac{\|A - A^{*}\|}{\|A\|}$, $\delta(b^{*}) = \frac{\|b - b^{*}\|}{\|b\|}$
+    
+        \begin{proof}
+            Без доказательства.
+        \end{proof}
+    \end{theorem}
 
 \clearpage
 \subsection{Метод Гаусса решения СЛАУ. Схема единственного деления. LU – разложение. Свойства метода.}
