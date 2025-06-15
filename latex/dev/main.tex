@@ -1199,7 +1199,7 @@
             a_{11} & a_{12} & \ldots & a_{1m} \\ 
             a_{21} & a_{22} & \ldots & a_{2m} \\ 
             a_{31} & a_{32} & \ldots & a_{3m} \\ 
-            \ldots \\
+            \ldots & \ldots & \ldots & \ldots \\
             a_{m1} & a_{m2} & \ldots & a_{mm} \\ 
         \end{pmatrix}$, 
         $x = \begin{pmatrix} x_{1} \\ x_{2} \\ x_{2} \\ \ldots \\ x_{m}\end{pmatrix}$,
@@ -1453,7 +1453,7 @@
             A^{(1)} = \begin{pmatrix}
                 a_{11} & a_{12} & \ldots & a_{1m}\\
                 0 & a_{22}^{(1)} & \ldots & a_{2m}^{(1)}\\
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots\\
                 0 & a_{m2}^{(1)} & \ldots & a_{mm}^{(1)}\\
             \end{pmatrix}
             \text{, }
@@ -1469,7 +1469,7 @@
                 1 & 0 & 0 & \ldots & 0\\
                 -\mu_{21} & 1 & 0 & \ldots & 0\\
                 -\mu_{31} & 0 & 1 & \ldots & 0\\
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots & \ldots\\
                 -\mu_{m1} & 0 & 0 & \ldots & m\\
             \end{pmatrix}
             $$
@@ -1494,11 +1494,11 @@
             M_{k} = \begin{pmatrix}
                 1 & 0 & 0 & \ldots & 0 & \ldots & 0\\
                 0 & 1 & 0 & \ldots & 0 & \ldots & 0\\
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots\\
                 0 & 0 & 0 & \ldots & 1 & \ldots & 0\\
                 0 & 0 & 0 & \ldots & -\mu_{k+1k} & \ldots & 0\\
                 0 & 0 & 0 & \ldots & -\mu_{k+2k} & \ldots & 0\\                
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots\\
                 0 & 0 & 0 & \ldots & -\mu_{mk}& \ldots & 1\\
             \end{pmatrix}
             $$
@@ -1516,11 +1516,11 @@
             M_{k}^{-1} = \begin{pmatrix}
                 1 & 0 & 0 & \ldots & 0 & \ldots & 0\\
                 0 & 1 & 0 & \ldots & 0 & \ldots & 0\\
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots\\
                 0 & 0 & 0 & \ldots & 1 & \ldots & 0\\
                 0 & 0 & 0 & \ldots & \mu_{k+1k} & \ldots & 0\\
                 0 & 0 & 0 & \ldots & \mu_{k+2k} & \ldots & 0\\                
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots & \ldots & \ldots & \ldots\\
                 0 & 0 & 0 & \ldots & \mu_{mk}& \ldots & 1\\
             \end{pmatrix}
             $$
@@ -1532,7 +1532,7 @@
                 1 & 0 & 0 & \ldots & 0 & 0\\
                 \mu_{21} & 1 & 0 & \ldots & 0 & 0\\
                 \mu_{31} & \mu_{32} & 1 & \ldots & 0 & 0\\
-                \ldots\\
+                \ldots & \ldots & \ldots & \ldots & \ldots & \ldots\\
                 \mu_{m1} & \mu_{m2} & \mu_{m3} & \ldots & \mu_{mm-1} & 1\\
             \end{pmatrix}
             $$
@@ -1705,7 +1705,7 @@
         L = \begin{pmatrix}
             l_{11} & 0 & \ldots & 0\\
             l_{21} & l_{22} & \ldots & 0\\
-            \ldots\\
+            \ldots & \ldots & \ldots & \ldots\\
             l_{m1} & l_{m2} & \ldots & l_{mm}\\
         \end{pmatrix}
         $$
@@ -1728,7 +1728,7 @@
                 L = \begin{pmatrix}
                     l_{11} & 0 & \ldots & 0\\
                     l_{21} & l_{22} & \ldots & 0\\
-                    \ldots\\
+                    \ldots & \ldots & \ldots & \ldots\\
                     l_{m1} & l_{m2} & \ldots & l_{mm}\\
                 \end{pmatrix}
                 $$
@@ -1737,7 +1737,7 @@
                 L^{T} = \begin{pmatrix}
                     l_{11} & l_{21} & \ldots & l_{m1}\\
                     0 & l_{22} & \ldots & l_{m2}\\
-                    \ldots\\
+                    \ldots & \ldots & \ldots & \ldots\\
                     0 & 0 & \ldots & l_{mm}\\
                 \end{pmatrix}
                 $$
@@ -1886,14 +1886,273 @@
 
 \subsection{Постановка задачи приближения функций. Приближение функций обобщенными многочленами.}
 
+    \begin{definition}{Приближение функции}{def-function-approximation}
+        Если функция $f(x)$:
+        \begin{itemize}
+            \item \textbf{Задана таблицей} своих значений: $f(x_{i}) = y_{i}$ $i = 0, 1, \ldots, n$.
+            \item \textbf{Сложна в вычислениях} (значительные затраты машинного времени).
+            \item Ограниченное число значений $f(x)$ из эксперимента: нахождение значения функции из эксперимента в реальном масштабе времени невозможно.
+        \end{itemize}
+        то функцию $f(x)$ приближенно заменяют другой функцией $g(x)$, вычисляемые значения которой принимают за приближенное значение функции $f(x)$.
+
+        \vspace{\baselineskip}
+
+        Такая \textbf{замена оправдана}, если:
+        \begin{itemize}
+            \item Значения $g(x)$ вычисляются быстро и надежно.
+            \item Погрешность приближения $f(x) - g(x)$ достаточно мала.
+        \end{itemize}
+    \end{definition}
+
+    \begin{definition}{Обобщенный многочлен}{def-generalized-polynomial}
+        \textbf{Обобщенный многочлен} - многочлен вида:
+        $$\Phi_{m}(x) = a_{0}\phi_{0}(x) + a_{1}\phi_{1}(x) + \ldots + a_{m}\phi_{m}(x)$$
+        т.е. линейная оболочка фиксированного набора базисных функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$.\\
+    
+        Число $m$ - \textbf{степень обобщенного многочлена}.
+    \end{definition}
+
+    \clearpage
+    \begin{example}{Обобщенный многочлен}{ex-generalized-polynomial}
+        Для гладкой функции $f(x)$ базис:
+        $$\{1, x, x^{2}, \ldots, x^{m}\}$$
+        т.е. степенные функции.
+
+        Тогда обобщенный многочлен будет вида:
+        $$\Phi_{m}(x) = a_{0} + a_{1}x + \ldots + a_{m}x^{m}$$
+
+        \vspace{\baselineskip}
+
+        Для периодической функции $f(x)$:
+        $$\{1, \cos(2\pi x), \sin(2\pi x), \cos(4\pi x), \sin(4\pi x), \ldots\}$$
+        $$\Phi_{m}(x) = a_{0} + \sum_{k=-\frac{m}{2}}^{\frac{m}{2}} a_{k}(\cos(2\pi x) + \sin(2\pi x))$$
+    \end{example}
+
+    \begin{lemma}{Требования для приближения. Приближение обобщенными многочленами}{lem-approximation-requirements}
+        Приближение обобщенными многочленами состоит из:
+        \begin{enumerate}
+            \item \textbf{Определения информации} о $f(x)$: таблица значений $f(x)$, множество значений $f(x)$ на отрезке $[a, b]$.
+            \item \textbf{Определения вида} функции $f(x)$: гладкость, период, монотонность, четность, врехние оценки производных ...
+            \item \textbf{Выбора класса} аппроксимирующих функций: $g(x) = \Phi_{m}(x) = a_{0}\phi_{0}(x) + a_{1}\phi_{1}(x) + \ldots + a_{m}\phi_{m}(x)$ 
+            \item \textbf{Определения критерия} близости $g(x)$ к функции $f(x)$:
+                  \begin{enumerate}
+                      \item Совпадение в конкретных узлах (интерполяция: $f(x_{i}) = g(x_{i})$).
+                      \item Минимизация среднеквадратичного отклонения ($\min\{[f(x) - g(x)]^{2}\}$).
+                  \end{enumerate}
+            \item \textbf{Определения точности} приближения.
+        \end{enumerate}
+    \end{lemma}
+
 \clearpage
 \subsection{Приближение методом интерполяции. Интерполяция обобщенными многочленами.}
+
+    \begin{definition}{Постановка задачи}{def-interpolation-task-setting}
+        Пусть в точках $x_{0}, x_{1}, \ldots, x_{n}$, разложенных на отрезке $[a, b]$ и попарно различных, задана таблица значений функции $f(x)$.
+
+        \vspace{\baselineskip}
+
+        Тогда \textbf{задача интерполяции} - построение функции $g(x)$:
+        $$g(x_{i}) = y_{i} \text{, } i = 0, 1, \ldots, n$$
+    
+        Т.е. график $g(x)$ должен проходить через заданные точки $(x_{i}, f(x_{i}))$.
+
+        \vspace{\baselineskip}
+
+        Указанный способ назвают \textbf{интерполяцией}, а точки $x_{i}$ - \textbf{узлами интерполяции}.
+    \end{definition}
+
+    Выбор функции $g(x)$ неоднозначен: по заданной таблице можно построить бесконечно много интерполирующих функций. Тогда функцию $g(x)$ выбирают из достаточно узкого класса $G$ функций, в котором единственность выбора гарантируется. 
+
+    \begin{theorem}{Задача интерполяции обобщенными многочленами}{th-generalized-polynomials-interpolation-task-setting}
+        Обобщенный многочлен $\Phi_{m}(x_{i})$ - \textbf{интерполяционный}, если:
+        $$\Phi_{m}(x_{i}) = y_{i} \text{, } i = 0, 1, \ldots, n$$
+
+        В виде системы запись преобразуется:
+        $$
+        \begin{cases}
+            \phi_{0}(x_{0})a_{0} + \phi_{1}(x_{0})a_{1} + \ldots + \phi_{m}(x_{0})a_{m} = y_{0}\\
+            \phi_{0}(x_{1})a_{0} + \phi_{1}(x_{1})a_{1} + \ldots + \phi_{m}(x_{1})a_{m} = y_{1}\\
+            \ldots\\
+            \phi_{0}(x_{n})a_{0} + \phi_{1}(x_{n})a_{1} + \ldots + \phi_{m}(x_{n})a_{m} = y_{n}\\
+        \end{cases}
+        $$
+
+        В матричном виде система записывается в виде:
+        $$Pa = y$$
+        где:
+        $
+        P = \begin{pmatrix}
+            \phi_{0}(x_{0}) & \phi_{1}(x_{0}) & \ldots & \phi_{m}(x_{0})\\
+            \phi_{0}(x_{1}) & \phi_{1}(x_{1}) & \ldots & \phi_{m}(x_{1})\\
+            \ldots & \ldots & \ldots & \ldots\\
+            \phi_{0}(x_{n}) & \phi_{1}(x_{n}) & \ldots & \phi_{m}(x_{n})\\
+        \end{pmatrix}
+        $,
+        $
+        a = \begin{pmatrix}
+            a_{0}\\
+            a_{1}\\
+            \ldots\\
+            a_{m}\\
+        \end{pmatrix}
+        $,
+        $
+        y = \begin{pmatrix}
+            y_{0}\\
+            y_{1}\\
+            \ldots\\
+            y_{n}\\
+        \end{pmatrix}
+        $
+    \end{theorem}
 
 \clearpage
 \subsection{Понятия линейно-независимой системы функций на заданном множестве точек. Теорема о существовании единственного решения задачи интерполяции.}
 
+    \begin{definition}{Линейно зависимая (независимая) система функций}{def-linearly-dependent-independent-system}
+        Пусть:
+        $$
+        \phi_{0} = \begin{pmatrix} 
+            \phi_{0}(x_{0})\\
+            \phi_{0}(x_{1})\\
+            \ldots\\
+            \phi_{0}(x_{n})\\
+        \end{pmatrix}
+        \text{, }
+        \phi_{1} = \begin{pmatrix} 
+            \phi_{1}(x_{0})\\
+            \phi_{1}(x_{1})\\
+            \ldots\\
+            \phi_{1}(x_{n})\\
+        \end{pmatrix}
+        \text{,}
+        \ldots
+        \text{,}
+        \phi_{m} = \begin{pmatrix} 
+            \phi_{m}(x_{0})\\
+            \phi_{m}(x_{1})\\
+            \ldots\\
+            \phi_{m}(x_{n})\\
+        \end{pmatrix}
+        $$
+        где $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$ - базисные функции.\\
+    
+        Говорят, что система функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$ \textbf{линейно зависимая} в точке $x_{0}, x_{1}, \ldots, x_{n}$, если $\exists j$:
+        $$\phi_{j} = \sum_{k = 0, k \neq j}^{m} \alpha_{k}\phi_{k}$$
+    
+        В противном случае, говорят, что система функций \textbf{линейно независимая}.
+    \end{definition}
+
+    \begin{consequence}{Линейно независимая система-1}{con-linear-independent-system-1}
+        Система функций $\{1, x, x^{2}, \ldots, x^{m}\}$ - линейно-независима в точке $x_{0}, x_{1}, \ldots, x_{n}$ при $m \leq n$.
+
+        \begin{proof}
+            От противного: пусть $\exists j$:
+            $$x_{i}^{j} = \sum_{k=0, k \neq j}^{m} \alpha_{k} x_{i}^{k}$$
+            
+            Перенесем $x_{i}^{j}$ в левую часть, т.е полагая $\alpha_{j} = -1$:
+            $$P_{m}(x) = \sum_{k = 0}^{m}\alpha_{k} x^{k}$$
+            многочлен стпени $m$, который обращаетя в ноль в точках $n+1$ точке ($x_{0}, x_{1}, \ldots, x_{n}$).\\
+            $n+1 > m$ $\rightarrow$ противоречие основной теореме алгебры.
+        \end{proof}
+    \end{consequence}
+
+    \begin{definition}{Матрица Грамма}{def-Gram-matrix}
+        Матрица вида:
+        $$
+        \text{Г} = PP^{*} = \begin{pmatrix}
+        (\phi_{0}, \phi_{0}) & (\phi_{1}, \phi_{0}) & \ldots & (\phi_{m}, \phi_{0})\\    
+        (\phi_{0}, \phi_{1}) & (\phi_{1}, \phi_{1}) & \ldots & (\phi_{m}, \phi_{1})\\
+        \ldots & \ldots & \ldots & \ldots\\
+        (\phi_{0}, \phi_{m}) & (\phi_{1}, \phi_{m}) & \ldots & (\phi_{m}, \phi_{m})\\
+        \end{pmatrix}
+        $$
+        где: $
+        P = \begin{pmatrix}
+            \phi_{0}(x_{0}) & \phi_{1}(x_{0}) & \ldots & \phi_{m}(x_{0})\\
+            \phi_{0}(x_{1}) & \phi_{1}(x_{1}) & \ldots & \phi_{m}(x_{1})\\
+            \ldots & \ldots & \ldots & \ldots\\
+            \phi_{0}(x_{n}) & \phi_{1}(x_{n}) & \ldots & \phi_{m}(x_{n})\\
+        \end{pmatrix}    
+        $, $P^{*} = \overline{P}^{T}$ - сопряженная матрица.\\
+
+        Элементы матрицы Грамма вычисляются по формуле:
+        $$\gamma_{jk} = (\phi_{k}, \phi_{j}) = \sum_{i=0}^{n}\phi_{k}(x_{i})\overline{\phi_{j}(x_{i})}$$
+    \end{definition}
+
+    \begin{consequence}{Линейно независимая система-2}{con-linear-independent-system-2}
+        Система функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$ - \textbf{линейно независима} 
+        $$\Updownarrow$$ 
+        $$\text{det}(\text{Г}) \neq 0$$
+    \end{consequence}
+
+    \begin{theorem}{О существовании единственного решения задачи интерполяции}{th-existence-single-solution-interpolation}
+        Задача интерполяции обобщенным многочленом имеет единственное решение при $m = n$
+        $$\Updownarrow$$
+        $$\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$$
+        линейно независимая система в точках $x_{0}, x_{1}, \ldots, x_{n}$. 
+    \end{theorem}
+
 \clearpage
 \subsection{Понятия ортогональной системы функций на заданном множестве точек. Утверждение о существовании единственного решения задачи интерполяции с помощью ортогональной системы функций. Решение задачи интерполяции для этого случая.}
+
+    \begin{definition}{Ортогональная система функций}{def-orthogonal-system}
+        Система функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$ - \textbf{ортогональная} на множестве $x_{0}, x_{1}, \ldots, x_{n}$, если:
+        $$
+        \begin{cases}
+            (\phi_{k}, \phi_{j}) = 0 \text{, при } k \neq j\\
+            (\phi_{k}, \phi_{j}) \neq 0 \text{, при } k = j\\
+        \end{cases}
+        $$
+        $$\forall k = 0, 1, \ldots, m; j = 0, 1, \ldots, m$$
+    \end{definition}
+
+    \begin{consequence}{Ортогональная система функций}{con-orthogonal-system}
+        При ортогональной системе функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$ матрица Грамма примет вид:
+        $$
+        \text{Г} = \begin{pmatrix}
+            (\phi_{0}, \phi_{0}) & 0 & 0 & \ldots & 0\\
+            0 & (\phi_{1}, \phi_{1}) & 0 & \ldots & 0\\
+            0 & 0 & (\phi_{2}, \phi_{2}) & \ldots & 0\\
+            \ldots & \ldots & \ldots & \ldots & \ldots\\
+            0 & 0 & 0 & \ldots & (\phi_{m}, \phi_{m})\\
+        \end{pmatrix}
+        $$
+        Определитель матрицы Грамма будет считатьтся по формуле:
+        $$\text{det}(\text{Г}) = \prod_{i = 0}^{m} (\phi_{i}, \phi_{i})$$
+    \end{consequence}
+
+    \clearpage
+    \begin{example}{Ортогональная система функций}{ex-orthogonal-system}
+        Система функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{N-1}(x)$, где:
+        $$\phi_{k}(x) = \exp(2\pi ikx) \text{, } k = 0, 1, \ldots$$
+        ортогональная на множестве точек:
+        $$x_{l} = \frac{l}{N} \text{, } l=0, 1, \ldots, N-1$$
+    
+        \begin{proof}
+            Пусть $\omega = \exp(\frac{2\pi i}{N})$, тогда:
+            $$\phi_{k}(x_{l}) = \exp(\frac{2\pi ikl}{N}) = \omega^{kl}$$
+            $$(\phi_{k}, \phi_{j}) = \sum_{l = 0}^{N-1} \omega^{kl} \cdot \omega^{-jl} = \sum_{l = 0}^{N-1} \omega^{(k - j)l}$$
+            
+            Если $k = j$:
+            $$(\phi_{k}, \phi_{j}) = N \text{ } (\text{сумма единиц})$$
+            Иначе:
+            $$(\phi_{k}, \phi_{j}) = \sum_{l = 0}^{N - 1} \omega^{(k - j)l} = \frac{1 - \omega^{(k - j)N}}{1 - \omega^{k - j}} = 0 \text{ } (\text{т.к. } \omega^{(k - j)N} = 1)$$
+        \end{proof}
+    \end{example}
+
+    \begin{theorem}{Решение задачи интерполяции для ортогональной системы}{th-interpolation-for-orthogonal-system}
+        Пусть система функций $\phi_{0}(x), \phi_{1}(x), \ldots, \phi_{m}(x)$ - ортогональна на множестве $x_{0}, x_{1}, \ldots, x_{n}$.\\
+        Тогда при $m = n$, $\text{det}(\text{Г}) \neq 0$ $\rightarrow$ задача интерполяции обобщенным многочленом имеет единственное решение.
+        $$Pa = y \rightarrow P^{*}Pa = P^{*}y \rightarrow \text{Г}a = b$$
+        где: 
+        $$
+        \begin{cases}
+            b_{j} = (y, \phi_{j}) = \sum_{i = 0}^{n} y_{i}\overline{\phi_{j}(x_{i})}\\
+            a_{j} = \frac{(y, \phi_{j})}{(\phi_{j}, \phi_{j})}, & j = 0, 1, \ldots, n \\
+        \end{cases}
+        $$
+    \end{theorem}
 
 \clearpage
 \subsection{Полиномиальная интерполяция. Интерполяционный многочлен в форме Лагранжа.}
