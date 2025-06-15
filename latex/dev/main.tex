@@ -2157,14 +2157,241 @@
 \clearpage
 \subsection{Полиномиальная интерполяция. Интерполяционный многочлен в форме Лагранжа.}
 
+    \begin{definition}{Интерполяционный многочлен}{def-interpolation-polynomial}
+        Для заданной таблице значений функции $f(x)$ интерполяционным многочленом называется многочлен $P_{n}(x) = \sum_{k=0}^{n} a_{k}x^{k}$ степени $n$, если:
+        $$P_{n}(x_{i}) = y_{i} \text{, } i = 0, 1, \ldots, n$$
+    
+        Запись условия в виде системы:
+        $$
+        \begin{cases}
+            a_{0} + a_{1}x_{0} + a_{2}x_{0}^{2} + \ldots + a_{n}x_{0}^{n} = y_{0}\\ 
+            a_{0} + a_{1}x_{1} + a_{2}x_{1}^{2} + \ldots + a_{n}x_{1}^{n} = y_{0}\\ 
+            \ldots\\
+            a_{0} + a_{1}x_{n} + a_{2}x_{n}^{2} + \ldots + a_{n}x_{n}^{n} = y_{0}\\ 
+        \end{cases}
+        $$
+
+        Данная система однозначно разрешима: система функций $\{1, x, x^{2}, \ldots, x^{n}\}$ - линейно независима в точках $x_{0}, x_{1}, \ldots, x_{n}$.
+    \end{definition}
+
+    \begin{theorem}{О единственности интерполяционного многочлена}{th-uniqueness-interpolation-polynomial}
+        Существует единственный интерполяционный многочлен степени $n$, удовлетворяющий условию:
+        $$P_{n}(x_{i}) = y_{i} \text{, } i = 0, 1, \ldots, n$$
+    \end{theorem}
+
+    \begin{definition}{Интерполяционный многочлен в форме Лагранжа}{def-lagrange-interpolation-polynomial}
+        Многочлен вида:
+        $$L_{n}(x) = \sum_{j = 0}^{n} y_{j}L_{n_{j}}(x)$$
+        где:
+        $$l_{n_{j}}(x) = \prod_{k = 1, k \neq j}^{n} \frac{x - x_{k}}{x_{j} - x_{k}} = \frac{(x - x_{0}) ... (x - x_{j-1})(x-x_{j+1}) ... (x - x_{n})}{(x_{j} - x_{0}) ... (x_{j} - x_{j - 1})(x_{j} - x_{j + 1}) ... (x_{j} - x_{n})}$$
+    
+        Из определения, получаем:
+        $$
+        l_{n_{j}}(x_{i}) = \begin{cases}
+            1, & i = j\\
+            0, & i \neq j\\
+        \end{cases}
+        $$
+    \end{definition}
+
+    \begin{example}{Интерполяционный многочлен Лагранжа}{ex-lagrange-interpolation-polynomial}
+        Пусть $x_{0}, x_{1}$ - узлы, тогда:
+        $$L_{1}(x) = y_{0}\frac{x - x_{1}}{x_{0} - x_{1}} + y_{1}\frac{x - x_{0}}{x_{1} - x_{0}}$$
+    \end{example}
+
 \clearpage
 \subsection{Погрешность полиномиальной интерполяции.}
+
+    \begin{theorem}{Погрешность полиномиальной интерполяции}{th-polynomial-interpolation-error}
+        Пусть $f(x) \in C^{(n+1)}[a, b]$, тогда:
+        $$f(x) - P_{n}(x) = \frac{f^{(n + 1)}(\xi)}{(n + 1)!}\omega_{n+1}(x)$$
+        где $\xi \in [a, b]$ и:
+        $$\omega_{n+1}(x) = (x - x_{0})(x - x_{1}) \ldots (x-x_{n})$$
+    \end{theorem}
+
+    \begin{consequence}{Погрешность полиномиальной интерполяции}{con-polynomial-interpolation-error}
+        Т.к. величина $\xi \in [a, b]$ - неизвестная величина, то формулу из предыдущей теоремы можно заменить на:
+        \begin{enumerate}
+            \item $|f(x) - P_{n}(x)| \leq \frac{M_{n+1}}{(n+1)!}|\omega_{n+1}(x)|$, где $M_{n+1} = \max_{x \in [a, b]}\{f^{(n+1)}(x)\}$.\\
+            \item $\max_{x \in [a, b]}\{|f(x) - P_{n}(x)|\} \leq \frac{M_{n+1}}{(n+1)!}\max_{x \in [a, b]}\{|\omega_{n+1}(x)|\}$.\\
+            \item $\overline{\Delta(P_{n}(x))} = \frac{M_{n+1}}{(n+1)!}\max_{x \in [a, b]}\{|\omega_{n+1}(x)|\}$.\\
+        \end{enumerate}
+    \end{consequence}
 
 \clearpage
 \subsection{Интерполяционный многочлен с кратными узлами. Погрешность интерполяции с кратными узлами.}
 
+    \begin{definition}{Кратный узел}{def-multiple-node}
+        Если в узлах $x_{i}$, $i = 0, 1, \ldots, m$ заданы еще и значения производных: 
+        $$
+        \begin{cases}
+            y_{i}^{'} = f^{'}(x_{i})\\ 
+            y_{i}^{''} = f^{''}(x_{i})\\
+            \ldots\\
+            y_{i}^{(k_{i} - 1)} = f^{(k_{i} - 1)}(x_{i})\\
+        \end{cases}
+        $$ 
+        то узел $x_{i}$ - кратный узел кратности $k_{i}$.
+    \end{definition}
+
+    \begin{definition}{Интерполяционный многочлен с кратными узлами}{th-interpolation-polynomial-with-multiple-nodes}
+        Пусть $n = k_{0} + k_{1} + \ldots + k_{m} - 1$, тогда существует единственный многочлен $P_{n}(x)$, удовлетворяющий условиям:
+        $$
+        \begin{cases}
+            P_{n}(x_{i}) = y_{i}\\
+            P_{n}^{'}(x_{i}) = y_{i}^{'}\\
+            \ldots\\
+            P_{n}^{(k_{i} - 1)}(x_{i}) = y_{i}^{(k_{i} - 1)}
+        \end{cases}
+        $$
+        для $i = 0, 1, \ldots, m$ - интерполяционный многочлен с кратными узлами.
+    \end{definition}
+
+    \begin{example}{Интерполяционный многочлен с кратными узлами}{ex-interpolation-polynomial-with-multiple-nodes}
+        Пусть узлы: $x_{0}, x_{1}$ и соответствующие им значения $y_{0}, y_{0}^{'}, y_{1}, y_{1}^{'}$, тогда:\\
+        $P_{3}(x) = y_{0}\frac{(x - x_{1})^{2}(2(x - x_{0}) + h)}{h^{2}} + y_{0}^{'}\frac{(x - x_{1})^{2}(x - x_{0})}{h^{2}} + y_{1}\frac{(x - x_{0})^{2}(2(x_{1} - x)+h)}{h^{3}} + y_{1}^{'}\frac{(x - x_{0})^{2}(x-x_{1})}{h^{2}}$\\
+        где $h = x_{1} - x_{0}$, $x$ - некоторая точка внутри промежутка $[x_{0}, x_{1}]$.
+
+        \vspace{\baselineskip}
+
+        Многочлен $P_{3}(x)$ - кубический интерполяционный многочлен Эрмита.
+    \end{example}
+
+    \begin{theorem}{Погрешность интерполяционного многочлена с кратными узлами}{th-interpolation-polynomial-with-multiple-nodes-error}
+        Пусть $f(x) \in C^{(n + 1)}[a, b]$, тогда для интерполяции с кратными узлами в точке $x \in [a, b]$ справделивы:
+        \begin{enumerate}
+            \item $f(x) - P_{n}(x) = \frac{f^{(n + 1)}(\xi)}{(n + 1)!}\omega_{n+1}(x)$, где $\xi \in [a, b]$.\\
+            \item $|f(x) - P_{n}(x)| \leq \frac{M_{n+1}}{(n+1)!}|\omega_{n+1}(x)|$, где $M_{n+1} = \max_{x \in [a, b]}\{f^{(n+1)}(x)\}$.\\
+            \item $\max_{x \in [a, b]}\{|f(x) - P_{n}(x)|\} \leq \frac{M_{n+1}}{(n+1)!}\max_{x \in [a, b]}\{|\omega_{n+1}(x)|\}$.\\
+            \item $\overline{\Delta(P_{n}(x))} = \frac{M_{n+1}}{(n+1)!}\max_{x \in [a, b]}\{|\omega_{n+1}(x)|\}$.\\
+        \end{enumerate}
+        где $\omega_{n+1}(x) = (x - x_{0})^{k_{0}}(x - x_{1})^{k_{1}} \ldots (x-x_{m})^{k_{m}}$.
+    
+        \vspace{\baselineskip}
+    
+        Для кубического многочлена Эрмита справедлива следующая оценка:
+        $$\max_{x \in [x_{0}, x_{1}]}\{|f(x) - P_{3}(x)|\} \leq \frac{M_{4}}{384} \cdot h^{4}$$
+        где $\max_{x \in [x_{0}, x_{1}]}\{\omega_{4}(x) = (x - x_{0})^{2}(x - x_{1})^{2}\} = \frac{h^{4}}{16}$.
+    \end{theorem}
+
 \clearpage
 \subsection{Минимизация оценки погрешности интерполяции. Многочлены Чебышева и их свойства. Применение для решения задачи минимизации погрешности.}
+
+    Рассмотрим неравенство:
+    $$\overline{\Delta}(P_{n}) \leq \frac{M_{n + 1}}{(n + 1)!} \max_{x \in [a, b]}\{\omega_{n+1}(x)\}$$
+    где $\omega_{n+1}(x) = (x - x_{0})(x - x_{1}) \ldots (x - x_{n})$.
+
+    \vspace{\baselineskip}
+
+    При замене $f(x)$ на интерполяционный многочлен $P_{n}(x)$, желательно, чтобы погрешность интерполяции стала бы минимальной, т.е. величину $\overline{\Delta(P_{n})}$ должна быть минимальной.
+    
+    \vspace{\baselineskip}
+
+    Т.к. в интерполяции возможно управлять только выбором узлов $x_{0}, x_{1}, \ldots, x_{n}$, то выберем такие, при которых величина $\overline{\Delta(P_{n})}$ была бы минимальной.
+    
+    \vspace{\baselineskip}
+    
+    Для этой цели используют многочлены Чебышева.
+
+    \begin{definition}{Многочлены Чебышева}{def-chebyshev-polynomials}
+        Многочлены вида:
+        $$
+        \begin{cases}
+            T_{0}(x) = 1\\
+            T_{1}(x) = x\\
+            T_{n}(x) = 2x \cdot T_{n - 1}(x) - T_{n - 2}(x)\\
+        \end{cases}
+        $$
+    \end{definition}
+
+    \begin{lemma}{Свойства многочленов Чебышева}{lem-chebyshev-polynomial-features}
+        \begin{enumerate}
+            \item При четном $n$ многочлен $T_{n}(x)$ содержит только четные степени $x$ и является четной функцией. При нечетном $n$ - наоборот.
+            \item При $n \geq 1$ страший коэффициент многочлена $T_{n}(x)$ равен $2^{n - 1}$.
+            \item Для $x \in [-1, 1]$ справедлива формула: 
+                  $$T_{n}(x) = \cos(n \cdot \arccos(x))$$
+            \item При $T_{n}(x) = cos(n \cdot \arccos(x))$ число вещественных корней $T_{n}(x)$ - $n$, и они имеют вид:
+                  $$x_{k} = \cos(\frac{2k + 1}{2n}\pi) \text{, } k = 0, 1, \ldots, n-1$$
+            \item Максимальные значения $|T_{n}(x)| = 1$ достигаются в точках вида:
+                  $$x_{m} = \cos(\frac{m}{n}\pi) \text{, } m = 0, 1, \ldots, n$$
+            \item Среди всех многочленов фиксированной степени $n$ со старшим коэффициентом $a_{n}$, равным 1, наименьшее отклонение от нуля (равное $2^{1 - n}$) имеет многочлен:
+                  $$\overline{T_{n}(x)} = 2^{1-n}T_{n}(x)$$
+                  т.е: $$2^{1 - n} = \max_{[-1, 1]}\{|\overline{T_{n}(x)}|\} \leq \max_{[-1, 1]}|P_{n}(x)|$$
+        \end{enumerate}
+
+        \begin{proof}
+            Свойство $(3)$:\\
+            При $n = 0$: $T_{0}(x) = cos(0) = 1$.\\
+            При $n = 1$: $T_{1}(x) = \cos(\arccos(x)) = x$.\\
+            При $n \geq 2$: $$\cos(n \cdot \arccos(x)) = 2x(\cos((n - 1)\arccos(x)) - \cos((n - 2)\arccos(x)))$$
+            $$\cos(n \arccos(x)) + \cos((n - 2)\arccos(x)) = $$ $$2\cos((n - 1) \arccos(x))\cos(\arccos(x)) = 2x\cos((n-1)\arccos(x))$$
+        
+            \vspace{\baselineskip}
+
+            Свойство $(4)$:
+            $$\cos(n \arccos(x)) = 0$$
+            $$n\arccos(x) = \frac{\pi}{2} + \pi k \text{, } k = 0, 1, \ldots, n-1$$
+            $$x_{k} = \cos(\frac{2k + 1}{2n}\pi) \text{, } k = 0, 1, \ldots, n-1$$
+
+            \vspace{\baselineskip}
+
+            Свойство $(5)$:\\
+            Аналогично предыдущему, только приравниваем к $\pm1$.
+        \end{proof}
+    \end{lemma}
+
+    \clearpage
+    \begin{theorem}{Минимизация оценки погрешности}{th-minimizing-margin-error}
+        \begin{itemize}
+            \item Если отрезок $[a, b]$ совпадает с $[-1, 1]$:
+                  $$\min_{[a, b]}\{\overline{\Delta(P_{n})}\} = \frac{M_{n + 1}}{(n + 1)! 2^{n}}$$
+            \item Для произвольного отрезка $[a, b]$:
+                  $$\min_{[a, b]}\{\overline{\Delta(P_{n})}\} = \frac{M_{n + 1}}{(n + 1)! 2^{n}}(\frac{b - a}{2})^{n + 1}$$
+        \end{itemize}
+
+        \begin{proof}
+            В общем виде:
+            $$\overline{\Delta(P_{n})} = \frac{M_{n + 1}}{(n + 1)!} \max_{x \in [a, b]} \{|\omega_{n + 1}(x)|\}$$
+            и величина $\overline{\Delta(P_{n})}$ будет минимальна, если минимальна величина $\max_{x \in [a, b]} \{|\omega_{n + 1}(x)|\}$.
+
+            \vspace{\baselineskip}
+
+            Если отрезок [a, b] \textbf{совпадает} с отрезком $[-1, 1]$, то минимальное значение для $\max_{x \in [a, b]} \{|\omega_{n + 1}(x)|\}$ есть минимальное отклонение от нуля многочлена:
+            $$\omega_{n + 1}(x) = (x - x_{0})(x - x_{1}) \ldots (x - x_{n})$$
+        
+            В силу свойств многочлена Чебышева, решение задачи дает набор узлов:
+            $$x_{k} = \cos(\frac{2k + 1}{2n + 2}\pi) \text{, } k = 0, 1, \ldots, n$$
+            являющихся нулями для $T_{n + 1}(x)$ (т.к. в этом случае $\omega_{n+1} = \overline{T_{n + 1}}$).
+
+            \vspace{\baselineskip}
+
+            Следовательно, минимальное отклонение от $0$ будет $2^{1 - (n + 1)} = \frac{1}{2^{n}}$.\\
+            Тогда: $$\min_{x \in [a, b]}\{\Delta(P_{n})\} = \frac{M_{n + 1}}{(n+1)! 2^{n}}$$
+
+            \vspace{\baselineskip}
+
+            Если отрезок $[a, b]$ \textbf{не совпадает} с отрезком $[-1, 1]$, то заменяем:
+            $$x = \frac{a + b}{2} + \frac{b - a}{2}t \text{, где } t \in [-1, 1]$$
+
+            Тогда:
+            $$\omega_{n + 1}(x) = (\frac{b - a}{2})^{n + 1}\overline{\omega_{n + 1}(t)}$$
+            где: 
+            $$
+            \begin{cases}
+                \overline{\omega_{n + 1}(t)} = (t - t_{0})(t - t_{1}) \ldots (t - t_{n})\\
+                x_{k} = \frac{a + b}{2} + \frac{b - a}{2}t_{k}, & k = 0, 1, \ldots, n \\
+            \end{cases}
+            $$
+
+            Следовательно:
+            $$\overline{\Delta(P_{n})} = \frac{M_{n + 1}}{(n + 1)!}(\frac{b - a}{2})^{n + 1} \max_{t \in [-1, 1]}\{|\overline{\omega_{n+1}(t)}|\}$$
+
+            Аналогично, получаем:
+            $$\min_{x \in [a, b]} \{\overline{\Delta(P_{n})}\} = \frac{M_{n + 1}}{(n+1)!2^{n}}(\frac{b-a}{2})^{n + 1}$$
+
+        \end{proof}
+    \end{theorem}
+
 
 \clearpage
 \subsection{Интерполяционная формула Ньютона для неравных промежутков. Разделенные разности и их свойства.}
