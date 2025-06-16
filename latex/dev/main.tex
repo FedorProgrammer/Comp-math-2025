@@ -2927,7 +2927,7 @@
             \centering
             \includegraphics[scale=0.7]{images/geometric-derivative-ex-2.png}
             \caption{Геометрическая интерпретация производных}
-            \label{fig:derivative-interpretation-1}
+            \label{fig:derivative-interpretation-2}
         \end{figure}
     \end{lemma}
 
@@ -3026,6 +3026,84 @@
 
 \clearpage
 \subsection{Численное интегрирование. Простейшие квадратурные формулы. Формула прямоугольников. Погрешность формулы.}
+
+    \begin{theorem}{Постановка задачи}{th-int-problem-setting}
+        При сложном вычислении первообразной $F$ (или же при ее отсутствии) для получения значения определенного интеграла: 
+        $$I = \int_{a}^{b} f(x) \, dx$$
+        используют способы численного интегрирования (в основном квадратурные формулы).
+    \end{theorem}
+
+    \begin{definition}{Основные определения}{th-main-int-definitions}
+        $$\int_{a}^{b} f(x) \, dx \approx \sum_{i = 0}^{N} A_{i}f(\overline{x_{i}})$$
+        Тогда:
+        \begin{itemize}
+            \item \textbf{Квадратурная формула}: $\sum_{i = 0}^{N} A_{i}f(\overline{x_{i}})$.
+            \item \textbf{Узел}: $\overline{x_{i}} \in [a, b]$.
+            \item \textbf{Вес узла}: $A_{i}$ - константа.
+            \item \textbf{Остаточный член}: $R = \int_{a}^{b} f(x) \, dx - \sum_{i = 0}^{N} A_{i} f(\overline{x_{i}})$.
+        \end{itemize}
+
+        \vspace{\baselineskip}
+
+        Квадратурная формула \textbf{точна} для многочленов степени $m$, если для любого многочлена степени не выше $m$ эта формула дает точное значение интеграла, т.е.
+        $$\int_{a}^{b} P_{m}(x) \, dx \approx \sum_{i = 0}^{N} A_{i}P_{m}(\overline{x_{i}})$$
+    
+        \vspace{\baselineskip}
+    
+        При оценке эффективности квадратурных формул часто исходят из того, что наиболее трудоемкой операцией при вычислении по формуле является нахождение значения функции $f$. 
+        
+        \vspace{\baselineskip}
+        
+        Тогда среди двух формул, позволяющих вычислить интеграл с заданной точностью $\varepsilon$, \textbf{более эффективной} считается та, в которой используется \textbf{меньшее количество узлов}.
+
+        \vspace{\baselineskip}
+
+        Если разбить отрезок $[a, b]$ на элементарные отрезки $[x_{i - 1}, x_{i}]$: $a = x_{0} < x_{1} < \ldots < x_{n} = b$, то интеграл $I$ разобьется на сумму элементарных интегралов $I = \sum_{i = 1}^{n} I_{i}$.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.7]{images/int-ex-1.png}
+            \caption{Геометрическая интерпретация разбиения}
+            \label{fig:int-interpretation-1}
+        \end{figure}
+    \end{definition}
+
+    \begin{theorem}{Формула прямоугольников}{th-rectangle-formula}
+        Замена площади элементарной криволинейной трапеции площадью прямоугольников, основанием которого является орезок $[x_{i-1}, x_{i}]$, а высота которого равна значению $f(\frac{x_{i - 1} + x_{i}}{2}) = f_{i - \frac{1}{2}}$.
+
+        \vspace{\baselineskip}
+
+        \textbf{Элементарная квадратурная формула} прямоугольников:
+        $$I_{i} \approx hf_{i - \frac{1}{2}}$$
+
+        Произведя такую замену для всех элементарных криволинейных трапеций, получаем \textbf{составную квадратурную формулу} прямоугольников:
+        $$I \approx I_{\text{пр}}^{h} = h(f_{\frac{1}{2}} + f_{\frac{3}{2}} + \ldots + f_{n - \frac{ - 1}{2}}) = h\sum_{i = 1}^{n} f_{i - \frac{1}{2}}$$
+    
+        \begin{figure}[H]
+            \centering
+            \includegraphics[scale=0.7]{images/int-rectangle-ex.png}
+            \caption{Геометрическая интерпретация формулы прямоугольников}
+            \label{fig:int-rectangle-ex}
+        \end{figure}
+    \end{theorem}
+
+    \begin{theorem}{Погрешность формулы}{th-rectangle-error}
+        Пусть $f(x) \in C^{(2)}[a, b]$, тогда:
+        $$|I - I_{\text{пр}}^{h}| \leq \frac{M_{2}(b - a)}{24}h^{2} \text{, } M_{2} = \max_{[a, b]}\{f^{''}(x)\}$$
+    
+        \begin{proof}
+            Пусть $R = I - I_{\text{пр}}^{h}$, тогда:
+            $$R = \int_{a}^{b} f(x) \, dx - h \sum_{i = 1}^{n} f_{i - \frac{1}{2}} = \sum_{i = 1}^{n} (\int_{x_{i-1}}^{x_{i}} [f(x) - f_{i - \frac{1}{2}}] \, dx)$$
+        
+            Представим $f(x)$ в виде Тейлора в окрестности $f(x_{i - \frac{1}{2}})$:
+            $$f(x) = f(x_{i - \frac{1}{2}}) + \frac{f^{'}(x_{i - \frac{1}{2}})}{h}(x - x_{i - \frac{1}{2}}) + \frac{f^{''}(\xi)}{\frac{h^{2}}{2}}(x - x_{i - \frac{1}{2}})^{2}$$
+        
+            Тогда:
+            $$R = \sum_{i = 1}^{n} \frac{f^{''}(\xi)}{\frac{h^{2}}{2}} \int_{x_{i - \frac{1}{2}}}^{x_{i}} [\frac{(x - x_{i - \frac{1}{2}})^{2}}{\frac{h^{2}}{2}}] \, dx$$
+            $$|I - I_{\text{пр}}^{n}| \leq n \frac{M_{2}}{24}h^{3} = \frac{M_{2}(b - a)h^{2}}{24} \text{ } (\text{т.к.} n \cdot h = b - a)$$
+
+        \end{proof}
+    \end{theorem}
 
 \clearpage
 \subsection{Численное интегрирование. Простейшие квадратурные формулы. Формула трапеций. Погрешность формулы.}
